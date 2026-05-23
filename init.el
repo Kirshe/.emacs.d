@@ -97,7 +97,21 @@
 
 (use-package vterm
   :ensure t
+  :custom
+  (vterm-kill-buffer-on-exit t)
+  (vterm-min-window-width 80)
   :config
-  (set-face-attribute 'vterm-color-default nil :foreground "#002b36" :background "#fdf6e3")
-  (set-face-attribute 'vterm-color-black nil :foreground "#586e75" :background "#eee8d5")
-  (set-face-attribute 'vterm-color-white nil :foreground "#002b36" :background "#fdf6e3"))
+  ;; Light/white mode colors for better readability
+  (set-face-attribute 'vterm-color-default nil :foreground "#222222" :background "#ffffff")
+  (set-face-attribute 'vterm-color-black nil :foreground "#333333" :background "#ffffff")
+  (set-face-attribute 'vterm-color-white nil :foreground "#eeeeee" :background "#ffffff")
+  (set-face-attribute 'vterm-color-bright-black nil :foreground "#666666" :background "#ffffff")
+  (set-face-attribute 'vterm-color-bright-white nil :foreground "#ffffff" :background "#ffffff")
+
+  ;; Set other colors for better contrast in light mode
+  (set-face-attribute 'vterm-color-red nil :foreground "#d70000" :background "#ffffff")
+  (set-face-attribute 'vterm-color-green nil :foreground "#00aa00" :background "#ffffff")
+  (set-face-attribute 'vterm-color-yellow nil :foreground "#b38800" :background "#ffffff")
+  (set-face-attribute 'vterm-color-blue nil :foreground "#0087ff" :background "#ffffff")
+  (set-face-attribute 'vterm-color-magenta nil :foreground "#d700d7" :background "#ffffff")
+  (set-face-attribute 'vterm-color-cyan nil :foreground "#00aaaa" :background "#ffffff"))
