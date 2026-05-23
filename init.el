@@ -37,7 +37,20 @@ The DWIM behaviour of this command is as follows:
    (t
     (keyboard-quit))))
 
+(defun my/isearch-word-at-point ()
+  "Start isearch with the word at point."
+  (interactive)
+  (let ((word (thing-at-point 'word t)))
+    (if word
+        (progn
+          (isearch-forward)
+          (isearch-yank-string word))
+        (isearch-forward))))
+
 (define-key global-map (kbd "C-g") #'prot/keyboard-quit-dwim)
+(define-key global-map (kbd "C-z") #'undo)
+(define-key global-map (kbd "C-;") #'comment-line)
+(define-key global-map (kbd "C-s") #'my/isearch-word-at-point)
 
 (use-package delsel
   :ensure nil
