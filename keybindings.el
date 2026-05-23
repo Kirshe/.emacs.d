@@ -29,10 +29,11 @@ The DWIM behaviour of this command is as follows:
   (interactive)
   (let ((word (thing-at-point 'word t)))
     (if word
-        (progn
-          (isearch-forward)
-          (isearch-yank-string word))
-        (isearch-forward))))
+        (let ((isearch-mode-hook
+               (cons (lambda () (isearch-yank-string word))
+                     isearch-mode-hook)))
+          (isearch-forward))
+      (isearch-forward))))
 
 ;; Global keybindings
 (define-key global-map (kbd "C-g") #'prot/keyboard-quit-dwim)

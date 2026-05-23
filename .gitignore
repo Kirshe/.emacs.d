@@ -3,4 +3,5 @@ eln-cache
 history
 elpa
 tramp
+transient
 *~
