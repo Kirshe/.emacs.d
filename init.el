@@ -121,4 +121,8 @@ The DWIM behaviour of this command is as follows:
   (add-to-list 'auto-mode-alist '("\\.\\(?:md\\|markdown\\|mkd\\|mdown\\|mkdn\\|mdwn\\)\\'" . markdown-mode)))
 
 (use-package vterm
-  :ensure t)
+  :ensure t
+  :config
+  (set-face-attribute 'vterm-color-default nil :foreground "#002b36" :background "#fdf6e3")
+  (set-face-attribute 'vterm-color-black nil :foreground "#586e75" :background "#eee8d5")
+  (set-face-attribute 'vterm-color-white nil :foreground "#002b36" :background "#fdf6e3"))
