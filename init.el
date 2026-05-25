@@ -115,3 +115,12 @@
   (set-face-attribute 'vterm-color-blue nil :foreground "#0087ff" :background "#ffffff")
   (set-face-attribute 'vterm-color-magenta nil :foreground "#d700d7" :background "#ffffff")
   (set-face-attribute 'vterm-color-cyan nil :foreground "#00aaaa" :background "#ffffff"))
+
+(use-package eat
+  :ensure t
+  :hook (eshell-load . eat-eshell-mode))
+
+(use-package csv-mode
+  :ensure t
+  :mode ("\\.csv\\'" . csv-mode)
+  :hook (csv-mode . csv-align-mode))
