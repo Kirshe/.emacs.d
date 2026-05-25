@@ -39,7 +39,7 @@ The DWIM behaviour of this command is as follows:
 (define-key global-map (kbd "C-g") #'prot/keyboard-quit-dwim)
 (define-key global-map (kbd "C-z") #'undo)
 (define-key global-map (kbd "C-;") #'comment-line)
-(define-key global-map (kbd "C-s") #'my/isearch-word-at-point)
+;; (define-key global-map (kbd "C-s") #'my/isearch-word-at-point)
 
 (provide 'keybindings)
 ;;; keybindings.el ends here
