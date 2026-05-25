@@ -32,7 +32,9 @@
   :commands (dired)
   :hook
   ((dired-mode . dired-hide-details-mode)
-   (dired-mode . hl-line-mode)))
+   (dired-mode . hl-line-mode))
+  :config
+  (setq dired-listing-switches "-l"))
 
 (use-package dired-subtree
   :ensure t
