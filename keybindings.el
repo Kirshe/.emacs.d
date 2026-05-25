@@ -24,22 +24,32 @@ The DWIM behaviour of this command is as follows:
    (t
     (keyboard-quit))))
 
-(defun my/isearch-word-at-point ()
-  "Start isearch with the word at point."
+(defun my/isearch-repeat-or-word-at-point ()
+  "In isearch, if search string is empty, yank word at point instead of last search; otherwise go to next match."
   (interactive)
-  (let ((word (thing-at-point 'word t)))
-    (if word
-        (let ((isearch-mode-hook
-               (cons (lambda () (isearch-yank-string word))
-                     isearch-mode-hook)))
-          (isearch-forward))
-      (isearch-forward))))
+  (if (string= isearch-string "")
+      (let ((word (thing-at-point 'word t)))
+        (if word
+            (isearch-yank-string word)
+          (isearch-repeat-forward)))
+    (isearch-repeat-forward)))
 
 ;; Global keybindings
 (define-key global-map (kbd "C-g") #'prot/keyboard-quit-dwim)
 (define-key global-map (kbd "C-z") #'undo)
 (define-key global-map (kbd "C-;") #'comment-line)
-;; (define-key global-map (kbd "C-s") #'my/isearch-word-at-point)
+(define-key isearch-mode-map (kbd "C-s") #'my/isearch-repeat-or-word-at-point)
 
 (provide 'keybindings)
 ;;; keybindings.el ends here
+
+
+
+
+
+
+
+
+
+
+
