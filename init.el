@@ -105,3 +105,24 @@
   :ensure t
   :mode ("\\.csv\\'" . csv-mode)
   :hook (csv-mode . csv-align-mode))
+
+(use-package parinfer-rust-mode
+  :ensure t)
+
+(use-package fzf
+  :ensure t
+  :bind (("C-x f" . fzf))
+  :config
+  (setq fzf/args "-x --color bw --print-query --margin=1,0 --no-hscroll"
+        fzf/executable "fzf"
+        fzf/git-grep-args "-i --line-number %s"
+	fzf/grep-command "rg --no-heading -nH"
+        fzf/position-bottom t
+        fzf/window-height 15))
+
+(use-package standard-themes
+  :ensure t
+  :init
+  (load-theme 'standard-light :no-confirm)
+  :config
+  (require 'standard-themes))
