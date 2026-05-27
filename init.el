@@ -99,7 +99,8 @@
 
 (use-package eat
   :ensure t
-  :hook (eshell-load . eat-eshell-mode))
+  :hook (eshell-load . eat-eshell-mode)
+  :bind ("C-c t" . eat-project))
 
 (use-package csv-mode
   :ensure t

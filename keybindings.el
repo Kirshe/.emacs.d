@@ -34,22 +34,11 @@ The DWIM behaviour of this command is as follows:
           (isearch-repeat-forward)))
     (isearch-repeat-forward)))
 
-(defun my/eat-project-claude ()
-  "Open eat-project terminal and run the claude command."
-  (interactive)
-  (eat-project)
-  (let ((buf (current-buffer)))
-    (run-with-timer 0.5 nil
-      (lambda ()
-        (when-let ((process (get-buffer-process buf)))
-          (process-send-string process "claude\n"))))))
-
 ;; Global keybindings
 (define-key global-map (kbd "C-g") #'prot/keyboard-quit-dwim)
 (define-key global-map (kbd "C-z") #'undo)
 (define-key global-map (kbd "C-;") #'comment-line)
 (define-key isearch-mode-map (kbd "C-s") #'my/isearch-repeat-or-word-at-point)
-(define-key global-map (kbd "C-c t") #'my/eat-project-claude)
 
 (provide 'keybindings)
 ;;; keybindings.el ends here
