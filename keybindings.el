@@ -34,7 +34,24 @@ The DWIM behaviour of this command is as follows:
           (isearch-repeat-forward)))
     (isearch-repeat-forward)))
 
+(defun my/move-line-up ()
+  "Move the current line up."
+  (interactive)
+  (transpose-lines 1)
+  (forward-line -2))
+
+(defun my/move-line-down ()
+  "Move the current line down."
+  (interactive)
+  (forward-line 1)
+  (transpose-lines 1)
+  (forward-line -1))
+
 ;; Global keybindings
+(define-key global-map (kbd "M-<up>")    #'my/move-line-up)
+(define-key global-map (kbd "M-<down>")  #'my/move-line-down)
+(define-key global-map (kbd "M-<right>") #'transpose-words)
+(define-key global-map (kbd "M-<left>")  (lambda () (interactive) (transpose-words -1)))
 (define-key global-map (kbd "C-g") #'prot/keyboard-quit-dwim)
 (define-key global-map (kbd "C-z") #'undo)
 (define-key global-map (kbd "C-;") #'comment-line)
