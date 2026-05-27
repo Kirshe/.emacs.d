@@ -127,3 +127,11 @@
   (load-theme 'standard-light-tinted :no-confirm)
   :config
   (require 'standard-themes))
+
+(use-package rg
+  :ensure t
+  :bind (("C-c s" . rg-menu))
+  :config
+  (rg-enable-default-bindings)
+  (setq rg-use-transient-menu t)
+  (setq rg-executable "rg"))
