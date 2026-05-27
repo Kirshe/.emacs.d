@@ -123,6 +123,6 @@
 (use-package standard-themes
   :ensure t
   :init
-  (load-theme 'standard-light :no-confirm)
+  (load-theme 'standard-light-tinted :no-confirm)
   :config
   (require 'standard-themes))
