@@ -53,9 +53,9 @@ The DWIM behaviour of this command is as follows:
 (define-key global-map (kbd "M-<right>") #'transpose-words)
 (define-key global-map (kbd "M-<left>")  (lambda () (interactive) (transpose-words -1)))
 (define-key global-map (kbd "C-g") #'prot/keyboard-quit-dwim)
-(define-key global-map (kbd "C-z") #'undo)
+;; (define-key global-map (kbd "C-z") #'undo)
 (define-key global-map (kbd "C-;") #'comment-line)
-(define-key isearch-mode-map (kbd "C-s") #'my/isearch-repeat-or-word-at-point)
+;; (define-key isearch-mode-map (kbd "C-s") #'my/isearch-repeat-or-word-at-point)
 
 (provide 'keybindings)
 ;;; keybindings.el ends here
