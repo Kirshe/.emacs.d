@@ -112,7 +112,11 @@
 
 (use-package fzf
   :ensure t
-  :bind (("C-x f" . fzf-find-file))
+  :init
+  (bind-keys :prefix "C-x f"
+	     :prefix-map fzf-prefix-map
+	     ("f" . fzf-find-file)
+	     ("s" . fzf-git-grep))
   :config
   (setq fzf/args "-x --color bw --print-query --margin=1,0 --no-hscroll"
         fzf/executable "fzf"
@@ -128,10 +132,9 @@
   :config
   (require 'standard-themes))
 
-(use-package rg
+(use-package undo-fu
   :ensure t
-  :bind (("C-c s" . rg-menu))
   :config
-  (rg-enable-default-bindings)
-  (setq rg-use-transient-menu t)
-  (setq rg-executable "rg"))
+  (global-unset-key (kbd "C-z"))
+  (global-set-key (kbd "C-z")   'undo-fu-only-undo)
+  (global-set-key (kbd "C-S-z") 'undo-fu-only-redo))
