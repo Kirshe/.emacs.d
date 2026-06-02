@@ -12,6 +12,11 @@
                (display-buffer-no-window)
                (allow-no-window . t)))
 
+(add-to-list 'load-path "/home/kirsche/.emacs.d/elisp")
+(require 'lang-common)
+(require 'lang-python)
+(require 'lang-web)
+
 (load-file (locate-user-emacs-file "keybindings.el"))
 
 (use-package delsel
@@ -138,3 +143,6 @@
   (global-unset-key (kbd "C-z"))
   (global-set-key (kbd "C-z")   'undo-fu-only-undo)
   (global-set-key (kbd "C-S-z") 'undo-fu-only-redo))
+
+;; To be run
+;; (mapc #'treesit-install-language-grammar (mapcar #'car treesit-language-source-alist))
