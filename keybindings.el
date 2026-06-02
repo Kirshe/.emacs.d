@@ -24,6 +24,21 @@ The DWIM behaviour of this command is as follows:
    (t
     (keyboard-quit))))
 
+; Source - https://stackoverflow.com/a/60826269
+; Posted by Ryan Marcus
+; Retrieved 2026-06-03, License - CC BY-SA 4.0
+(defun ryanmarcus/backward-kill-word ()
+  "Remove all whitespace if the character behind the cursor is whitespace, otherwise remove a word."
+  (interactive)
+  (if (looking-back "[ \n]")
+      ;; delete horizontal space before us and then check to see if we
+      ;; are looking at a newline
+      (progn (delete-horizontal-space 't)
+             (while (looking-back "[ \n]")
+               (backward-delete-char 1)))
+    ;; otherwise, just do the normal kill word.
+    (backward-kill-word 1)))
+
 (defun my/isearch-repeat-or-word-at-point ()
   "In isearch, if search string is empty, yank word at point instead of last search; otherwise go to next match."
   (interactive)
@@ -56,6 +71,7 @@ The DWIM behaviour of this command is as follows:
 ;; (define-key global-map (kbd "C-z") #'undo)
 (define-key global-map (kbd "C-;") #'comment-line)
 ;; (define-key isearch-mode-map (kbd "C-s") #'my/isearch-repeat-or-word-at-point)
+(define-key global-map (kbd "C-<backspace>") #'ryanmarcus/backward-kill-word)
 
 (provide 'keybindings)
 ;;; keybindings.el ends here
