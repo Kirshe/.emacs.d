@@ -12,7 +12,8 @@
                (display-buffer-no-window)
                (allow-no-window . t)))
 
-(add-to-list 'load-path "/home/kirsche/.emacs.d/elisp")
+
+(add-to-list 'load-path (expand-file-name "elisp" user-emacs-directory))
 (require 'lang-common)
 (require 'lang-python)
 (require 'lang-web)
@@ -111,9 +112,6 @@
   :ensure t
   :mode ("\\.csv\\'" . csv-mode)
   :hook (csv-mode . csv-align-mode))
-
-(use-package parinfer-rust-mode
-  :ensure t)
 
 (use-package fzf
   :ensure t
