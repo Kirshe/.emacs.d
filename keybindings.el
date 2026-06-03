@@ -62,6 +62,27 @@ The DWIM behaviour of this command is as follows:
   (transpose-lines 1)
   (forward-line -1))
 
+(defun my/send-region-to-eat ()
+  "Send the selected region text to the eat terminal buffer in the current project."
+  (interactive)
+  (unless (use-region-p)
+    (user-error "No region selected"))
+  (let* ((text (buffer-substring-no-properties (region-beginning) (region-end)))
+         (project (project-current t))
+         (default-directory (project-root project))
+         (eat-buf (seq-find (lambda (buf)
+                              (with-current-buffer buf
+                                (and (derived-mode-p 'eat-mode)
+                                     (string-prefix-p (project-root project)
+                                                      default-directory))))
+                            (buffer-list))))
+    (unless eat-buf
+      (user-error "No eat terminal found for current project"))
+    (with-current-buffer eat-buf
+      (eat-term-send-string eat-terminal text)
+      (eat-term-send-string eat-terminal "\n")))
+  (deactivate-mark))
+
 ;; Global keybindings
 (define-key global-map (kbd "M-<up>")    #'my/move-line-up)
 (define-key global-map (kbd "M-<down>")  #'my/move-line-down)
@@ -72,6 +93,7 @@ The DWIM behaviour of this command is as follows:
 (define-key global-map (kbd "C-;") #'comment-line)
 ;; (define-key isearch-mode-map (kbd "C-s") #'my/isearch-repeat-or-word-at-point)
 (define-key global-map (kbd "C-<backspace>") #'ryanmarcus/backward-kill-word)
+(define-key global-map (kbd "C-c C-y") #'my/send-region-to-eat)
 
 (provide 'keybindings)
 ;;; keybindings.el ends here
