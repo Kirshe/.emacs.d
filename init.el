@@ -17,6 +17,7 @@
 (require 'lang-common)
 (require 'lang-python)
 (require 'lang-web)
+(require 'lang-yaml)
 
 (load-file (locate-user-emacs-file "keybindings.el"))
 

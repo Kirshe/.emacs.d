@@ -8,7 +8,8 @@
         (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
         (css "https://github.com/tree-sitter/tree-sitter-css")
         (json "https://github.com/tree-sitter/tree-sitter-json")
-        (html "https://github.com/tree-sitter/tree-sitter-html")))
+        (html "https://github.com/tree-sitter/tree-sitter-html")
+        (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
 
 ;; Remap major modes to treesitter variants
 (setq major-mode-remap-alist
@@ -17,7 +18,8 @@
         (js-mode . js-ts-mode)
         (typescript-mode . typescript-ts-mode)
         (js-json-mode . json-ts-mode)
-        (css-mode . css-ts-mode)))
+        (css-mode . css-ts-mode)
+        (yaml-mode . yaml-ts-mode)))
 
 ;; Auto-mode for TSX files
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
@@ -29,7 +31,8 @@
   :hook ((python-ts-mode . eglot-ensure)
          (js-ts-mode . eglot-ensure)
          (typescript-ts-mode . eglot-ensure)
-         (tsx-ts-mode . eglot-ensure))
+         (tsx-ts-mode . eglot-ensure)
+         (yaml-ts-mode . eglot-ensure))
   :config
   (setq eglot-autoshutdown t))
 
