@@ -68,7 +68,6 @@
   :ensure t
   :custom
   (dumb-jump-prefer-searcher 'rg)
-  (xref-show-definitions-function #'consult-xref)
   :config
   (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
 
@@ -143,6 +142,10 @@
   (global-unset-key (kbd "C-z"))
   (global-set-key (kbd "C-z")   'undo-fu-only-undo)
   (global-set-key (kbd "C-S-z") 'undo-fu-only-redo))
+
+(use-package treesit-fold
+  :ensure t
+  :straight (treesit-fold :type git :host github :repo "emacs-tree-sitter/treesit-fold"))
 
 ;; To be run
 ;; (mapc #'treesit-install-language-grammar (mapcar #'car treesit-language-source-alist))
