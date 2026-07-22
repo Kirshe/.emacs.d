@@ -12,6 +12,8 @@
                (display-buffer-no-window)
                (allow-no-window . t)))
 
+(add-to-list 'load-path "/home/kirsche/.emacs.d/elisp/transient-podman")
+(require 'transient-podman)
 
 (add-to-list 'load-path (expand-file-name "elisp" user-emacs-directory))
 (require 'my-functions)
@@ -19,6 +21,7 @@
 (require 'lang-python)
 (require 'lang-web)
 (require 'lang-yaml)
+(require 'lang-nim)
 
 (load-file (locate-user-emacs-file "keybindings.el"))
 

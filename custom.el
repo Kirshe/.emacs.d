@@ -15,9 +15,9 @@
      default))
  '(package-selected-packages
    '(corfu csv-mode dired-subtree dumb-jump eat embark-consult fzf magit
-	   marginalia markdown-mode multiple-cursors orderless
-	   rainbow-delimiters rg standard-themes
-	   treemacs undo-fu vertico vterm))
+	   marginalia markdown-mode multiple-cursors nim-mode
+	   orderless rainbow-delimiters rg standard-themes treemacs
+	   undo-fu vertico vterm))
  '(tool-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

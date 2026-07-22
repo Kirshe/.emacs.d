@@ -21,7 +21,7 @@
     exit-code))
 
 (defun setup-install-language-servers ()
-  "Install language servers: pyright, typescript-language-server, yaml-language-server."
+  "Install language servers: pyright, typescript-language-server, yaml-language-server, nimlangserver."
   (interactive)
   (with-current-buffer (get-buffer-create "*setup*")
     (erase-buffer))
@@ -35,6 +35,10 @@
         (setup--run-command "typescript-language-server" "npm" "install" "-g" "typescript-language-server" "typescript")
         (setup--run-command "yaml-language-server" "npm" "install" "-g" "yaml-language-server"))
     (message "SKIP: typescript-language-server, yaml-language-server — npm not found"))
+  ;; Nim: nimlangserver via nimble
+  (if (executable-find "nimble")
+      (setup--run-command "nimlangserver" "nimble" "--accept" "install" "nimlangserver")
+    (message "SKIP: nimlangserver — nimble not found"))
   (message "Language server installation complete."))
 
 (defun setup-install-all ()
