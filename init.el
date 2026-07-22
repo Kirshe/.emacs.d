@@ -147,8 +147,7 @@
   (global-set-key (kbd "C-S-z") 'undo-fu-only-redo))
 
 (use-package treesit-fold
-  :ensure t
-  :straight (treesit-fold :type git :host github :repo "emacs-tree-sitter/treesit-fold"))
+  :ensure t)
 
 ;; To be run
 ;; (mapc #'treesit-install-language-grammar (mapcar #'car treesit-language-source-alist))
