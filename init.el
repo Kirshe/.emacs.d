@@ -17,6 +17,7 @@
 
 (add-to-list 'load-path (expand-file-name "elisp" user-emacs-directory))
 (require 'my-functions)
+(require 'tty)
 (require 'lang-common)
 (require 'lang-python)
 (require 'lang-web)
