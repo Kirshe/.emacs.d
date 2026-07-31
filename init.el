@@ -136,8 +136,8 @@
 (use-package standard-themes
   :ensure t
   :init
-  ;; Enabled per-frame by `my/enable-theme' (elisp/my-display.el), which
-  ;; skips it on colour-poor terminals and fixes the background mode.
+  ;; Used on graphical frames only; terminal frames get modus-vivendi.
+  ;; See `my/theme-graphic' / `my/theme-tty' in elisp/my-display.el.
   (my/enable-theme))
 
 (use-package undo-fu

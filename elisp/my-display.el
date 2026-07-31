@@ -9,32 +9,51 @@
 
 ;;; Theme
 
-(defvar my/theme 'standard-light-tinted
-  "Theme to enable on capable displays.")
+(defvar my/theme-graphic '(standard-light-tinted . light)
+  "Theme for graphical frames, as (THEME . BACKGROUND-MODE).")
+
+(defvar my/theme-tty '(modus-vivendi . dark)
+  "Theme for terminal frames, as (THEME . BACKGROUND-MODE).
+A dark theme here means Emacs paints the terminal dark regardless of the
+emulator's own background.  modus-vivendi is built into Emacs, so this
+needs no package.")
 
 (defvar my/theme-min-colors 256
-  "Minimum colour count a terminal must report before `my/theme' is used.
+  "Minimum colour count a terminal must report before a theme is used.
 Below this, Emacs has to approximate every theme colour into a tiny
 palette, which usually reads worse than the terminal's own default
 faces.  Applies only to terminal frames.")
 
+(defun my/frame-theme (frame)
+  "Return the (THEME . BACKGROUND-MODE) pair appropriate to FRAME."
+  (if (display-graphic-p frame) my/theme-graphic my/theme-tty))
+
 (defun my/theme-usable-p (frame)
-  "Return non-nil when FRAME can render `my/theme' acceptably."
+  "Return non-nil when FRAME can render a theme acceptably."
   (or (display-graphic-p frame)
       (>= (display-color-cells frame) my/theme-min-colors)))
 
 (defun my/enable-theme (&optional frame)
-  "Enable `my/theme' if FRAME can render it.
-Safe to call repeatedly; loading is skipped once the theme is active."
-  (let ((frame (or frame (selected-frame))))
+  "Enable the theme matching FRAME's display, if it can render one.
+Safe to call repeatedly; a no-op once the right theme is already active.
+
+NOTE: Emacs themes are global, not per-frame.  Separate GUI and terminal
+Emacs *processes* therefore each get their own theme, which is the point
+of this.  But in a single daemon serving both kinds of frame at once,
+whichever frame was created most recently wins and the other frame's
+colours change to match."
+  (let* ((frame (or frame (selected-frame)))
+         (theme (car (my/frame-theme frame)))
+         (background (cdr (my/frame-theme frame))))
     (when (and (my/theme-usable-p frame)
-               (not (memq my/theme custom-enabled-themes)))
-      (load-theme my/theme :no-confirm)
-      ;; The theme is light.  Say so explicitly: on a terminal Emacs
-      ;; otherwise infers the background mode from TERM and often guesses
-      ;; "dark", which makes every face that adapts via
+               (not (equal custom-enabled-themes (list theme))))
+      (mapc #'disable-theme custom-enabled-themes)
+      (load-theme theme :no-confirm)
+      ;; State the background mode explicitly: on a terminal Emacs
+      ;; otherwise infers it from TERM and often guesses wrong, which
+      ;; makes every face that adapts via
       ;; `((class color) (background dark))' choose the wrong colours.
-      (setq frame-background-mode 'light)
+      (setq frame-background-mode background)
       (mapc #'frame-set-background-mode (frame-list)))))
 
 ;;; Font
