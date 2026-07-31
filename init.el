@@ -17,7 +17,7 @@
 
 (add-to-list 'load-path (expand-file-name "elisp" user-emacs-directory))
 (require 'my-functions)
-(require 'tty)
+(require 'my-display)
 (require 'lang-common)
 (require 'lang-python)
 (require 'lang-web)
@@ -136,9 +136,9 @@
 (use-package standard-themes
   :ensure t
   :init
-  (load-theme 'standard-light-tinted :no-confirm)
-  :config
-  (require 'standard-themes))
+  ;; Enabled per-frame by `my/enable-theme' (elisp/my-display.el), which
+  ;; skips it on colour-poor terminals and fixes the background mode.
+  (my/enable-theme))
 
 (use-package undo-fu
   :ensure t
