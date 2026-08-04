@@ -108,6 +108,46 @@
   (setq markdown-header-scaling t)
   (add-to-list 'auto-mode-alist '("\\.\\(?:md\\|markdown\\|mkd\\|mdown\\|mkdn\\|mdwn\\)\\'" . markdown-mode)))
 
+(use-package denote
+  :ensure t
+  ;; Fontify Denote file names in Dired, but only inside the directories
+  ;; listed in `denote-dired-directories'.
+  :hook (dired-mode . denote-dired-mode-in-directories)
+  :bind
+  (("C-c n n" . denote)
+   ("C-c n c" . denote-region)
+   ("C-c n N" . denote-type)
+   ("C-c n r" . denote-rename-file)
+   ("C-c n R" . denote-rename-file-using-front-matter)
+   ("C-c n i" . denote-link)
+   ("C-c n I" . denote-add-links)
+   ("C-c n b" . denote-backlinks)
+   ("C-c n d" . denote-dired)
+   ("C-c n g" . denote-grep)
+   ("C-c n f" . denote-open-or-create)
+   ("C-c n k" . denote-rename-file-keywords))
+  :custom
+  (denote-directory (expand-file-name "~/denote/"))
+  (denote-dired-directories (list denote-directory))
+  ;; Markdown notes with YAML front matter by default.
+  (denote-file-type 'markdown-yaml)
+  ;; Ask for a title and keywords; everything else is derived.
+  (denote-prompts '(title keywords))
+  ;; Keyword completion offers these plus whatever already exists on disk.
+  (denote-known-keywords '("emacs" "linux" "python" "work" "personal" "journal"))
+  (denote-infer-keywords t)
+  (denote-sort-keywords t)
+  (denote-excluded-directories-regexp "\\`\\(\\.git\\|\\.stversions\\|attachments\\)\\'")
+  ;; Use Org's calendar picker whenever a date is requested.
+  (denote-date-prompt-use-org-read-date t)
+  ;; Don't save or kill note buffers behind our back.
+  (denote-save-buffers nil)
+  (denote-kill-buffers nil)
+  :config
+  (make-directory denote-directory :parents)
+  ;; Buffer names become the note title instead of the long file name.
+  (denote-rename-buffer-mode 1))
+
 (use-package eat
   :ensure t
   :hook (eshell-load . eat-eshell-mode)
