@@ -130,7 +130,7 @@
   (denote-directory (expand-file-name "~/denote/"))
   (denote-dired-directories (list denote-directory))
   ;; Markdown notes with YAML front matter by default.
-  (denote-file-type 'markdown-yaml)
+  (denote-file-type nil)
   ;; Ask for a title and keywords; everything else is derived.
   (denote-prompts '(title keywords))
   ;; Keyword completion offers these plus whatever already exists on disk.
@@ -147,6 +147,24 @@
   (make-directory denote-directory :parents)
   ;; Buffer names become the note title instead of the long file name.
   (denote-rename-buffer-mode 1))
+
+(use-package org-capture
+  :ensure nil
+  :bind ("C-c c" . org-capture)
+  :config
+  ;; `denote-org-capture' is autoloaded, so this needs no denote at load
+  ;; time.  It runs before the target below is resolved: it prompts per
+  ;; `denote-prompts', returns the front matter as the template body, and
+  ;; leaves the new file name in `denote-last-path'.  Captures are always
+  ;; .org regardless of `denote-file-type' -- org-capture needs Org syntax.
+  (add-to-list 'org-capture-templates
+               '("n" "Denote note" plain
+                 (file denote-last-path)
+                 #'denote-org-capture
+                 :no-save t
+                 :immediate-finish nil
+                 :kill-buffer t
+                 :jump-to-captured t)))
 
 (use-package eat
   :ensure t
