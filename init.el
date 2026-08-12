@@ -130,11 +130,11 @@
   (denote-directory (expand-file-name "~/denote/"))
   (denote-dired-directories (list denote-directory))
   ;; Markdown notes with YAML front matter by default.
-  (denote-file-type nil)
+  (denote-file-type 'org)
   ;; Ask for a title and keywords; everything else is derived.
-  (denote-prompts '(title keywords))
+  (denote-prompts '(title keywords template))
   ;; Keyword completion offers these plus whatever already exists on disk.
-  (denote-known-keywords '("emacs" "linux" "python" "work" "personal" "journal"))
+  (denote-known-keywords '("emacs" "linux" "python" "work" "software-development" "blog"))
   (denote-infer-keywords t)
   (denote-sort-keywords t)
   (denote-excluded-directories-regexp "\\`\\(\\.git\\|\\.stversions\\|attachments\\)\\'")
@@ -146,7 +146,18 @@
   :config
   (make-directory denote-directory :parents)
   ;; Buffer names become the note title instead of the long file name.
-  (denote-rename-buffer-mode 1))
+  (denote-rename-buffer-mode 1)
+  ;; blog template for ox-hugo
+  (setq denote-templates
+	'((blog . (concat
+		   "#+hugo_base_dir: /home/kirsche/codebase/blog/\n"
+		   "#+hugo_section: posts\n"
+		   "#+hugo_bundle: \n"
+		   "#+hugo_draft: true\n\n")))))
+
+(use-package ox-hugo
+  :ensure t
+  :after ox)
 
 (use-package org-capture
   :ensure nil
