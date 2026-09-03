@@ -159,6 +159,47 @@
   :ensure t
   :after ox)
 
+;; Diagrams in Org: PlantUML via Babel.  Default output is Unicode art in
+;; the buffer so C-c C-c works in a terminal.  For a blog/PDF export, add
+;; e.g. `:file fig.svg :results file' on that block instead.
+;;
+;; Needs the `plantuml' executable (and Graphviz/`dot' for most non-sequence
+;; diagram types).  Java is already enough to run the JAR if you point
+;; `org-plantuml-jar-path' at it and set `org-plantuml-exec-mode' to `jar'.
+(use-package plantuml-mode
+  :ensure t
+  :mode "\\.puml\\'"
+  :custom
+  (plantuml-default-exec-mode 'executable))
+
+(use-package ob-plantuml
+  :ensure nil
+  :after org
+  :custom
+  (org-plantuml-exec-mode 'plantuml)
+  (org-plantuml-args '("-headless"))
+  :config
+  (add-to-list 'org-src-lang-modes '("plantuml" . plantuml))
+  (setq org-babel-default-header-args:plantuml
+        '((:results . "verbatim replace")
+          (:exports . "results")))
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   (seq-uniq (append org-babel-load-languages '((plantuml . t)))
+             (lambda (a b) (eq (car a) (car b)))))
+  ;; Skip the "evaluate this code block?" prompt for PlantUML only.
+  (setq org-confirm-babel-evaluate
+        (let ((previous org-confirm-babel-evaluate))
+          (lambda (lang body)
+            (cond ((string= lang "plantuml") nil)
+                  ((functionp previous) (funcall previous lang body))
+                  (t previous)))))
+  (advice-add 'org-babel-execute:plantuml
+              :around #'my/org-babel-execute:plantuml-unicode)
+  ;; TTY: chafa over file-link results.  Toggle with C-c C-x C-v.
+  (advice-add 'org-link-preview-file :around #'my/org-link-preview-file)
+  (add-hook 'org-babel-after-execute-hook #'my/org-babel-tty-preview-images))
+
 (use-package org-capture
   :ensure nil
   :bind ("C-c c" . org-capture)
